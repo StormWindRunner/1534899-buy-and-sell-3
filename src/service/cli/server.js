@@ -3,12 +3,14 @@
 const chalk = require(`chalk`);
 const express = require(`express`);
 const fs = require(`fs`).promises;
-const {FILE_NAME, HttpCode, COUNT, DEFAULT_PORT} = require(`../constants`);
-
+const {FILE_NAME, HttpCode, COUNT, DEFAULT_PORT, API_PREFIX} = require(`../constants`); // API PREF = /api
+const routes = require(`../api`);
 const [customPort] = COUNT;
 const port = Number.parseInt(customPort, 10) || DEFAULT_PORT;
 const app = express();
 app.use(express.json());
+
+app.use(API_PREFIX, routes);
 
 app.get(`/offers`, async (req, res) => {
   try {
